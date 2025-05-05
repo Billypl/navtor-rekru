@@ -8,10 +8,9 @@ using NavtorShiper.Entities;
 
 namespace NavtorShiper.Repositories
 {
-
     public class ShipRepository : IShipRepository
     {
-        private Dictionary<string, Ship> _ships = new();
+        private readonly Dictionary<string, Ship> _ships = new();
 
         public IEnumerable<Ship> GetAll()
         {
@@ -29,14 +28,9 @@ namespace NavtorShiper.Repositories
             _ships.Add(ship.IMONumber, ship);
         }
 
-        public bool Update(Ship ship)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool Delete(string id)
         {
-            throw new NotImplementedException();
+            return _ships.Remove(id);
         }
     }
 }

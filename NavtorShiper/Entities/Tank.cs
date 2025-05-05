@@ -11,11 +11,11 @@ namespace NavtorShiper.Entities
         Diesel,
         HeavyFuel
     }
-    public class Tank(int id, double capacity, double currentLevel, FuelType type)
+    public class Tank(int id, FuelType type, double capacity, double currentLevel)
     {
         public int Id { get; set; } = id;
+        public FuelType Type { get; set; } = type;
         public double Capacity { get; set; } = capacity;
         public double CurrentLevel { get; set; } = currentLevel;
-        public FuelType Type { get; set; } = type;
     }
 }

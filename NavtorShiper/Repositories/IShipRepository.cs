@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace NavtorShiper.Repositories
 {
-    interface IShipRepository
+    public interface IShipRepository
     {
         IEnumerable<Ship> GetAll();
         Ship? GetById(string id);
         void Add(Ship ship);
-        bool Update(Ship ship);
         bool Delete(string id);
-
     }
 }

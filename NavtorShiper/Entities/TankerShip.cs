@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace NavtorShiper.Entities
 {
-    public class TankerShip(string imoNumber, string name, int length, int width) : Ship(imoNumber, name, length, width)
+    public class TankerShip(string imoNumber, string name, int length, int width, Dictionary<int, Tank>? tanks = null) : Ship(imoNumber, name, length, width)
     {
-        public Dictionary<int, Tank> Tanks { get; set; } = new();
+        public Dictionary<int, Tank> Tanks { get; set; } = tanks ?? new();
     }
 }
