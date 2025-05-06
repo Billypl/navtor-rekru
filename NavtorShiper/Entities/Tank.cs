@@ -21,28 +21,28 @@ namespace NavtorShiper.Entities
         void Empty();
     }
 
-    public class Tank(int id, double capacity) : ITank
+    public class Tank : ITank
     {
+        public Tank(int id, double capacity)
+        {
+            Id = id;
+            Capacity = capacity;
+        }
+
         public Tank(int id, FuelType type, double capacity, double currentLevel) : this(id, capacity)
         {
             Type = type;
             CurrentLevel = currentLevel;
         }
-        public int Id { get; set; } = id;
+
+        public int Id { get; set; }
         public FuelType Type { get; private set; } = FuelType.None;
-        public double Capacity { get; set; } = capacity;
+        public double Capacity { get; set; }
         public double CurrentLevel { get; private set; } = 0;
 
         public void Refuel(FuelType fuelType, double amount)
         {
-            if (fuelType != Type && CurrentLevel != 0)
-            {
-                throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {fuelType}. Current type is {Type}.");
-            }
-            if (CurrentLevel + amount > Capacity)
-            {
-                throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {amount} units. Capacity exceeded.");
-            }
+            ValidateRefuelingParameters(fuelType, amount);
             Type = fuelType;
             CurrentLevel += amount;
         }
@@ -51,6 +51,19 @@ namespace NavtorShiper.Entities
         {
             Type = FuelType.None;
             CurrentLevel = 0;
+        }
+
+        private void ValidateRefuelingParameters(FuelType fuelType, double amount)
+        {
+            if (fuelType != Type && CurrentLevel != 0)
+            {
+                throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {fuelType}. Current type is {Type}.");
+            }
+
+            if (CurrentLevel + amount > Capacity)
+            {
+                throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {amount} units. Capacity exceeded.");
+            }
         }
 
         public override string ToString()

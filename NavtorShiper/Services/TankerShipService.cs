@@ -8,8 +8,15 @@ using NavtorShiper.Repositories;
 
 namespace NavtorShiper.Services
 {
-    public class TankerShipService(IShipRepository _shipRepository)
+    public class TankerShipService
     {
+        private readonly IShipRepository _shipRepository1;
+
+        public TankerShipService(IShipRepository shipRepository)
+        {
+            _shipRepository1 = shipRepository;
+        }
+
         public void RefuelTank(string imo, int tankId, FuelType fuelType, double amount)
         {
             ITank tank = GetTank(imo, tankId);
@@ -24,7 +31,7 @@ namespace NavtorShiper.Services
 
         private ITank GetTank(string imo, int tankId)
         {
-            var ship = _shipRepository.GetById(imo);
+            var ship = _shipRepository1.GetById(imo);
             if (ship is null)
             {
                 throw new ArgumentException($"Ship with IMO {imo} not found.");

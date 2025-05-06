@@ -12,12 +12,12 @@ namespace NavtorShiper.Data
     {
         public void FillShipRepository()
         {
-            var ship1 = new TankerShip("1234567", "Tanker 1", 1000, 200, new Dictionary<int, ITank>
+            var ship1 = new TankerShip("8814275", "Tanker 1", 1000, 200, new Dictionary<int, ITank>
             {
                 { 1, new Tank(1, 1000) },
                 { 2, new Tank(2, 500) }
             });
-            var ship2 = new TankerShip("7654321", "Tanker 2", 2000, 400, new Dictionary<int, ITank>
+            var ship2 = new TankerShip("9074729", "Tanker 2", 2000, 400, new Dictionary<int, ITank>
             {
                 { 3, new Tank(3, 700) },
                 { 4, new Tank(4, 400) }

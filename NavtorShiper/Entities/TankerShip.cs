@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace NavtorShiper.Entities
 {
-    public class TankerShip(string imoNumber, string name, int length, int width, Dictionary<int, ITank>? tanks = null) : Ship(imoNumber, name, length, width)
+    public class TankerShip : Ship
     {
-        public Dictionary<int, ITank> Tanks { get; set; } = tanks ?? new();
+        public TankerShip(string imoNumber, string name, int length, int width, Dictionary<int, ITank>? tanks = null) : base(imoNumber, name, length, width)
+        {
+            Tanks = tanks ?? new();
+        }
+
+        public Dictionary<int, ITank> Tanks { get; set; }
         public override string ToString()
         {
             var tanks = Tanks.Values;

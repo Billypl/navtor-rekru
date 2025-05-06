@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace NavtorShiper.Utils
 {
-    class ImoValidator
+    public class ImoValidator
     {
         private const int ImoNumberLength = 7;
         public static bool IsValidImoNumber(string imoNumber)
         {
+            if (imoNumber.Any(c => !char.IsDigit(c)))
+            {
+                return false;
+            }
             if (imoNumber.Length != ImoNumberLength)
             {
                 return false;

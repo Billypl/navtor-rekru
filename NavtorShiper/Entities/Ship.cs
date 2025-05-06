@@ -9,26 +9,32 @@ namespace NavtorShiper.Entities
 {
     public abstract class Ship
     {
-        protected Ship(string imoNumber, string name, int length, int width)
+        public string ImoNumber { get; protected set; }
+        public string Name { get; set; }
+        public double Length { get; set; }
+        public double Width { get; set; }
+
+        protected Ship(string imoNumber, string name, double length, double width)
         {
-            if (!ImoValidator.IsValidImoNumber(imoNumber))
-            {
-                throw new ArgumentException($"Invalid IMO number: {imoNumber}");
-            }
-            if (length < 0 || width < 0)
-            {
-                throw new ArgumentException($"Length and width must be positive numbers.");
-            }
+            ValidateShipParameters(imoNumber, length, width);
             ImoNumber = imoNumber;
             Name = name;
             Length = length;
             Width = width;
         }
 
-        public string ImoNumber { get; protected set; }
-        public string Name { get; set; }
-        public int Length { get; set; }
-        public int Width { get; set; }
+        private static void ValidateShipParameters(string imoNumber, double length, double width)
+        {
+            if (!ImoValidator.IsValidImoNumber(imoNumber))
+            {
+                throw new ArgumentException($"Invalid IMO number: {imoNumber}");
+            }
+
+            if (length < 0 || width < 0)
+            {
+                throw new ArgumentException($"Length and width must be positive numbers.");
+            }
+        }
 
         public override string ToString()
         {
