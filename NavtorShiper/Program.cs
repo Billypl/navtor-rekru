@@ -10,6 +10,6 @@ seeder.FillShipRepository();
 TankerShipService tankerShipService = new TankerShipService(shipRepository);
 
 tankerShipService.RefuelTank("1234567", 1, FuelType.Diesel, 300);
-tankerShipService.RefuelTank("7654321", 3, FuelType.Diesel, 200);
+tankerShipService.RefuelTank("7654321", 3, FuelType.HeavyFuel, 200);
 tankerShipService.EmptyTank("7654321", 3);
 Console.WriteLine(shipRepository.GetById("1234567")?.ToString());

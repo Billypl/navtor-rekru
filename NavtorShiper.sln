@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavtorShiper", "NavtorShiper\NavtorShiper.csproj", "{23434ED0-6DFE-4DE1-8C5E-EAFB3FBA8750}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavtorShiper.Tests", "NavtorShiper.Tests\NavtorShiper.Tests.csproj", "{17D791FC-027B-4AC2-A24B-076165C69A14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{23434ED0-6DFE-4DE1-8C5E-EAFB3FBA8750}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23434ED0-6DFE-4DE1-8C5E-EAFB3FBA8750}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23434ED0-6DFE-4DE1-8C5E-EAFB3FBA8750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D791FC-027B-4AC2-A24B-076165C69A14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D791FC-027B-4AC2-A24B-076165C69A14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D791FC-027B-4AC2-A24B-076165C69A14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D791FC-027B-4AC2-A24B-076165C69A14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

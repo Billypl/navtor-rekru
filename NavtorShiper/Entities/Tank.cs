@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,48 @@ namespace NavtorShiper.Entities
     public enum FuelType
     {
         Diesel,
-        HeavyFuel
+        HeavyFuel,
+        None
     }
-    public class Tank(int id, FuelType type, double capacity, double currentLevel)
+
+    public interface ITank
     {
+        int Id { get; set; }
+        void Refuel(FuelType fuelType, double amount);
+        void Empty();
+    }
+
+    public class Tank(int id, double capacity) : ITank
+    {
+        public Tank(int id, FuelType type, double capacity, double currentLevel) : this(id, capacity)
+        {
+            Type = type;
+            CurrentLevel = currentLevel;
+        }
         public int Id { get; set; } = id;
-        public FuelType Type { get; set; } = type;
+        public FuelType Type { get; private set; } = FuelType.None;
         public double Capacity { get; set; } = capacity;
-        public double CurrentLevel { get; set; } = currentLevel;
+        public double CurrentLevel { get; private set; } = 0;
+
+        public void Refuel(FuelType fuelType, double amount)
+        {
+            if (fuelType != Type && CurrentLevel != 0)
+            {
+                throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {fuelType}. Current type is {Type}.");
+            }
+            if (CurrentLevel + amount > Capacity)
+            {
+                throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {amount} units. Capacity exceeded.");
+            }
+            Type = fuelType;
+            CurrentLevel += amount;
+        }
+
+        public void Empty()
+        {
+            Type = FuelType.None;
+            CurrentLevel = 0;
+        }
 
         public override string ToString()
         {
