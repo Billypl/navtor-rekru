@@ -25,7 +25,11 @@ namespace NavtorShiper.Repositories
 
         public void Add(Ship ship)
         {
-            _ships.Add(ship.IMONumber, ship);
+            if (_ships.ContainsKey(ship.ImoNumber))
+            {
+                throw new ArgumentException($"Ship with IMO {ship.ImoNumber} already exists.");
+            }
+            _ships.Add(ship.ImoNumber, ship);
         }
 
         public bool Delete(string id)

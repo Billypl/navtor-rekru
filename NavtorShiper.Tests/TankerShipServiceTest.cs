@@ -10,8 +10,8 @@ namespace NavtorShiper.Tests
 {
     public class TankerShipServiceTests
     {
-        private const string ValidImo = "IMO123";
-        private const string InvalidImo = "IMO999";
+        private const string ValidImo = "9074729";
+        private const string InvalidImo = "9074728";
         private const int ExistingTankId = 1;
         private const int NonExistingTankId = 999;
         private const double TankCapacity = 1000;
