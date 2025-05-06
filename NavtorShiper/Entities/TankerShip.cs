@@ -8,7 +8,7 @@ namespace NavtorShiper.Entities
 {
     public class TankerShip : Ship
     {
-        public TankerShip(string imoNumber, string name, int length, int width, Dictionary<int, ITank>? tanks = null) : base(imoNumber, name, length, width)
+        public TankerShip(string imoNumber, string name, double length, double width, Dictionary<int, ITank>? tanks = null) : base(imoNumber, name, length, width)
         {
             Tanks = tanks ?? new();
         }

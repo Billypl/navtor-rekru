@@ -23,6 +23,11 @@ namespace NavtorShiper.Entities
 
     public class Tank : ITank
     {
+        public int Id { get; set; }
+        public FuelType Type { get; private set; } = FuelType.None;
+        public double Capacity { get; set; }
+        public double CurrentLevel { get; private set; } = 0;
+
         public Tank(int id, double capacity)
         {
             Id = id;
@@ -34,11 +39,6 @@ namespace NavtorShiper.Entities
             Type = type;
             CurrentLevel = currentLevel;
         }
-
-        public int Id { get; set; }
-        public FuelType Type { get; private set; } = FuelType.None;
-        public double Capacity { get; set; }
-        public double CurrentLevel { get; private set; } = 0;
 
         public void Refuel(FuelType fuelType, double amount)
         {

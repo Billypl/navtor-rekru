@@ -61,7 +61,7 @@ namespace NavtorShiper.Tests
         }
 
         [Fact]
-        public void Add_NewShip_AddsToRepository()
+        public void Add_NewValidShip_AddsToRepository()
         {
             _repository.Add(_testShip1);
 

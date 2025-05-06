@@ -16,21 +16,12 @@ namespace NavtorShiper.Utils
 
         private static bool IsValidFormat(string imoNumber)
         {
-            if (imoNumber.Any(c => !char.IsDigit(c)))
-            {
-                return false;
-            }
-
-            if (imoNumber.Length != ImoNumberLength)
-            {
-                return false;
-            }
-
-            return true;
+            return !(imoNumber.Length != ImoNumberLength || imoNumber.Any(c => !char.IsDigit(c)));
         }
 
         private static bool IsValidControlSum(string imoNumber)
         {
+            // https://en.wikipedia.org/wiki/IMO_number#:~:text=IMO%20number%20of%20a%20vessel%5Bedit%5D
             int[] digits = imoNumber.Select(c => c - '0').ToArray();
             int controlDigit = digits[ImoNumberLength - 1];
             int controlSum = 0;
@@ -41,6 +32,5 @@ namespace NavtorShiper.Utils
             }
             return controlSum % 10 == controlDigit;
         }
-
     }
 }
