@@ -8,9 +8,9 @@ namespace NavtorShiper.Entities
 {
     public class PassengerShip : Ship
     {
-        public Dictionary<int, Passenger> Passengers { get; }
+        public List<Passenger> Passengers { get; }
 
-        public PassengerShip(string imoNumber, string name, double length, double width, Dictionary<int, Passenger>? passengers = null)
+        public PassengerShip(string imoNumber, string name, double length, double width, List<Passenger>? passengers = null)
             : base(imoNumber, name, length, width)
         {
             Passengers = passengers ?? new();
@@ -20,8 +20,7 @@ namespace NavtorShiper.Entities
         {
             var strBuilder = new StringBuilder();
             strBuilder.Append(base.ToString());
-            var passengers = Passengers.Values;
-            foreach (var passenger in passengers)
+            foreach (var passenger in Passengers)
             {
                 strBuilder
                     .Append('\t')

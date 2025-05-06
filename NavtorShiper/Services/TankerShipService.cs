@@ -40,7 +40,7 @@ namespace NavtorShiper.Services
             {
                 throw new InvalidOperationException($"Ship with IMO {imo} is not a tanker ship.");
             }
-            var tank = tankerShip.Tanks.GetValueOrDefault(tankId);
+            var tank = tankerShip.Tanks.FirstOrDefault(t => t.Id == tankId);
             if (tank is null)
             {
                 throw new ArgumentException($"Tank with ID {tankId} not found in ship with IMO {imo}.");

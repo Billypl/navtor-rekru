@@ -19,19 +19,18 @@ namespace NavtorShiper.Services
 
         public void AddPassenger(string imo, Passenger passenger)
         {
-            GetPassengerShip(imo).Passengers.Add(passenger.Id, passenger);
+            GetPassengerShip(imo).Passengers.Add(passenger);
         }
 
         public void RemovePassenger(string imo, int passengerId)
         {
             var ship = GetPassengerShip(imo);
-            var passenger = ship.Passengers.GetValueOrDefault(passengerId);
+            var passenger = ship.Passengers.FirstOrDefault(p => p.Id == passengerId);
             if (passenger is null)
             {
                 throw new InvalidOperationException($"Passenger with id {passengerId} not found.");
             }
-
-            ship.Passengers.Remove(passengerId);
+            ship.Passengers.Remove(passenger);
         }
 
         private PassengerShip GetPassengerShip(string imo)

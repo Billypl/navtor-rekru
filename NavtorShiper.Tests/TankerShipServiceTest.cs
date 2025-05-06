@@ -82,7 +82,7 @@ namespace NavtorShiper.Tests
             var tankerShip = new TankerShip(ValidImo, "Oil Tanker", 150, 30);
             if (tank != null)
             {
-                tankerShip.Tanks.Add(tank.Id, tank);
+                tankerShip.Tanks.Add(tank);
             }
             return tankerShip;
         }

@@ -8,19 +8,18 @@ namespace NavtorShiper.Entities
 {
     public class TankerShip : Ship
     {
-        public Dictionary<int, ITank> Tanks { get; set; }
+        public List<ITank> Tanks { get; set; }
 
-        public TankerShip(string imoNumber, string name, double length, double width, Dictionary<int, ITank>? tanks = null) : base(imoNumber, name, length, width)
+        public TankerShip(string imoNumber, string name, double length, double width, List<ITank>? tanks = null) : base(imoNumber, name, length, width)
         {
             Tanks = tanks ?? new();
         }
 
         public override string ToString()
         {
-            var tanks = Tanks.Values;
             var strBuilder = new StringBuilder();
             strBuilder.Append(base.ToString());
-            foreach (var tank in tanks)
+            foreach (var tank in Tanks)
             {
                 strBuilder
                     .Append('\t')
