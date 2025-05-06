@@ -29,7 +29,7 @@ namespace NavtorShiper.Tests
         }
 
         [Fact]
-        public void RefuelTank_WhenShipNotFound_ThrowsArgumentException()
+        public void RefuelTank_WhenShipNotFound_ThrowsException()
         {
             _shipRepositoryMock.Setup(x => x.GetById(InvalidImo)).Returns(null as Ship);
 
@@ -41,7 +41,7 @@ namespace NavtorShiper.Tests
         }
 
         [Fact]
-        public void RefuelTank_WhenTankNotFound_ThrowsArgumentException()
+        public void RefuelTank_WhenTankNotFound_ThrowsException()
         {
             var tankerShip = CreateTestTankerShip();
             _shipRepositoryMock.Setup(x => x.GetById(ValidImo)).Returns(tankerShip);
