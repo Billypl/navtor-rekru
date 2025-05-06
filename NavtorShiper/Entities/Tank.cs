@@ -60,6 +60,11 @@ namespace NavtorShiper.Entities
                 throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {fuelType}. Current type is {Type}.");
             }
 
+            if (amount < 0)
+            {
+                throw new ArgumentException("Tank cannot be refueled with a negative amount of fuel.");
+            }
+
             if (CurrentLevel + amount > Capacity)
             {
                 throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {amount} units. Capacity exceeded.");
@@ -68,7 +73,7 @@ namespace NavtorShiper.Entities
 
         public override string ToString()
         {
-            return $"TANK - Id: {Id}, Type: {Type}, Capacity: {Capacity}L, CurrentLevel: {CurrentLevel}L\n";
+            return $"TANK - Id: {Id}, Type: {Type}, Capacity: {Capacity}L, CurrentLevel: {CurrentLevel}L";
         }
     }
 }

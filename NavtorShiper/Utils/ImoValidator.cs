@@ -11,14 +11,26 @@ namespace NavtorShiper.Utils
         private const int ImoNumberLength = 7;
         public static bool IsValidImoNumber(string imoNumber)
         {
+            return IsValidFormat(imoNumber) && IsValidControlSum(imoNumber);
+        }
+
+        private static bool IsValidFormat(string imoNumber)
+        {
             if (imoNumber.Any(c => !char.IsDigit(c)))
             {
                 return false;
             }
+
             if (imoNumber.Length != ImoNumberLength)
             {
                 return false;
             }
+
+            return true;
+        }
+
+        private static bool IsValidControlSum(string imoNumber)
+        {
             int[] digits = imoNumber.Select(c => c - '0').ToArray();
             int controlDigit = digits[ImoNumberLength - 1];
             int controlSum = 0;
@@ -29,5 +41,6 @@ namespace NavtorShiper.Utils
             }
             return controlSum % 10 == controlDigit;
         }
+
     }
 }

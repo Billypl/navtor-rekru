@@ -11,8 +11,8 @@ namespace NavtorShiper.Entities
     {
         public string ImoNumber { get; protected set; }
         public string Name { get; set; }
-        public double Length { get; set; }
-        public double Width { get; set; }
+        public double Length { get; protected set; }
+        public double Width { get; protected set; }
 
         protected Ship(string imoNumber, string name, double length, double width)
         {
@@ -32,7 +32,7 @@ namespace NavtorShiper.Entities
 
             if (length < 0 || width < 0)
             {
-                throw new ArgumentException($"Length and width must be positive numbers.");
+                throw new ArgumentException("Length and width must be positive numbers.");
             }
         }
 

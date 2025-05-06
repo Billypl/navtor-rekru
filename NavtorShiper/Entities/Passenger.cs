@@ -18,5 +18,9 @@ namespace NavtorShiper.Entities
             FirstName = firstName;
             LastName = lastName;
         }
+        public override string ToString()
+        {
+            return $"PASSENGER: Id: {Id}, FirstName: {FirstName}, LastName: {LastName}";
+        }
     }
 }

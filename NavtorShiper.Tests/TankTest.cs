@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions;
+using Microsoft.VisualBasic.FileIO;
 using NavtorShiper.Entities;
 using Xunit;
 
@@ -46,7 +47,7 @@ namespace NavtorShiper.Tests
             tank.Refuel(DefaultFuelType, InitialFuelAmount);
             Action act = () => tank.Refuel(OtherFuelType, AdditionalFuelAmount);
 
-            act.Should().Throw<InvalidOperationException>().WithMessage("*cannot be refueled*");
+            act.Should().Throw<InvalidOperationException>().WithMessage($"Tank with ID {tank.Id} cannot be refueled with {OtherFuelType}. Current type is {DefaultFuelType}.");
         }
 
         [Fact]
@@ -59,7 +60,18 @@ namespace NavtorShiper.Tests
             
             Action act = () => tank.Refuel(DefaultFuelType, overfillAmount);
 
-            act.Should().Throw<InvalidOperationException>().WithMessage("*Capacity exceeded*");
+            act.Should().Throw<InvalidOperationException>().WithMessage($"Tank with ID {tank.Id} cannot be refueled with {overfillAmount} units. Capacity exceeded.");
+        }
+
+        [Fact]
+        public void Refuel_NegativeAmount_ThrowsException()
+        {
+            var tank = CreateTestTank();
+            var negativeAmount = -100;
+            
+            Action act = () => tank.Refuel(DefaultFuelType, negativeAmount);
+
+            act.Should().Throw<ArgumentException>().WithMessage("Tank cannot be refueled with a negative amount of fuel.");
         }
 
         [Fact]

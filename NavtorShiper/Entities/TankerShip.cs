@@ -21,7 +21,7 @@ namespace NavtorShiper.Entities
             strBuilder.Append(base.ToString());
             foreach (var tank in tanks)
             {
-                strBuilder.Append(tank.ToString());
+                strBuilder.Append('\t').Append(tank.ToString()).Append('\n');
             }
             return strBuilder.ToString();
         }
