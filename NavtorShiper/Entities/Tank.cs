@@ -17,5 +17,10 @@ namespace NavtorShiper.Entities
         public FuelType Type { get; set; } = type;
         public double Capacity { get; set; } = capacity;
         public double CurrentLevel { get; set; } = currentLevel;
+
+        public override string ToString()
+        {
+            return $"TANK - Id: {Id}, Type: {Type}, Capacity: {Capacity}L, CurrentLevel: {CurrentLevel}L\n";
+        }
     }
 }

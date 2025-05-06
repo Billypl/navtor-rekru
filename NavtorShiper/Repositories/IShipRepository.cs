@@ -10,7 +10,7 @@ namespace NavtorShiper.Repositories
     public interface IShipRepository
     {
         IEnumerable<Ship> GetAll();
-        Ship? GetById(string id);
+        Ship? GetById(string imo);
         void Add(Ship ship);
         bool Delete(string id);
     }

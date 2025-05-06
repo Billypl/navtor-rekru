@@ -12,5 +12,10 @@ namespace NavtorShiper.Entities
         public string Name { get; set; } = name;
         public int Length { get; set; } = length;
         public int Width { get; set; } = width;
+
+        public override string ToString()
+        {
+            return $"SHIP - IMONumber: {IMONumber}, Name: {Name}, Length: {Length}m, Width: {Width}m\n";
+        }
     }
 }

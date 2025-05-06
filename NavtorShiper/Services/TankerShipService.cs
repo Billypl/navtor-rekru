@@ -49,7 +49,7 @@ namespace NavtorShiper.Services
                 throw new InvalidOperationException($"Tank with ID {tankId} does not support fuel type {fuelType}.");
             }
 
-            if (tank.Capacity + amount > tank.Capacity)
+            if (tank.CurrentLevel + amount > tank.Capacity)
             {
                 throw new InvalidOperationException($"Tank with ID {tankId} cannot be refueled with {amount} units. Capacity exceeded.");
             }

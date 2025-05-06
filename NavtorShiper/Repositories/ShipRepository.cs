@@ -17,9 +17,9 @@ namespace NavtorShiper.Repositories
             return _ships.Values;
         }
 
-        public Ship? GetById(string id)
+        public Ship? GetById(string imo)
         {
-            var ship = _ships.GetValueOrDefault(id);
+            var ship = _ships.GetValueOrDefault(imo);
             return ship;
         }
 
