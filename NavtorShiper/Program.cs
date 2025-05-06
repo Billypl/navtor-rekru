@@ -1,12 +1,10 @@
-﻿using System.Text;
-using DiffPlex.DiffBuilder;
-using DiffPlex;
-using NavtorShiper.Data;
+﻿using NavtorShiper.Data;
 using NavtorShiper.Entities;
 using NavtorShiper.Repositories;
 using NavtorShiper.Services;
 using NavtorShiper.Utils;
-using DiffPlex.DiffBuilder.Model;
+
+// this is program demo - for full functionality showcase, please refer to the tests project
 
 IShipRepository shipRepository = new ShipRepository();
 Seeder seeder = new Seeder(shipRepository);
@@ -53,6 +51,6 @@ void PrintPassengerOperations()
 string ShowDiffComparedToCurrent<T>(IShipRepository shipRepository1, string lastState)
 {
     var newState = string.Join('\n', shipRepository1.GetAll().OfType<T>().ToList());
-    DiffViewr.ShowDiff(lastState, newState);
+    DiffViewer.ShowDiff(lastState, newState);
     return newState;
 }

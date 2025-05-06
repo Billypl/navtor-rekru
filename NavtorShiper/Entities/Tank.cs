@@ -16,26 +16,22 @@ namespace NavtorShiper.Entities
 
     public interface ITank
     {
-        int Id { get; set; }
+        int Id { get; }
         void Refuel(FuelType fuelType, double amount);
         void Empty();
     }
 
     public class Tank : ITank
     {
-        public int Id { get; set; }
-        public FuelType Type { get; private set; } = FuelType.None;
-        public double Capacity { get; set; }
-        public double CurrentLevel { get; private set; } = 0;
+        public int Id { get; }
+        public FuelType Type { get; private set; }
+        public double Capacity { get; }
+        public double CurrentLevel { get; private set; }
 
-        public Tank(int id, double capacity)
+        public Tank(int id, double capacity, FuelType type = FuelType.None, double currentLevel = 0)
         {
             Id = id;
             Capacity = capacity;
-        }
-
-        public Tank(int id, FuelType type, double capacity, double currentLevel) : this(id, capacity)
-        {
             Type = type;
             CurrentLevel = currentLevel;
         }
@@ -59,12 +55,10 @@ namespace NavtorShiper.Entities
             {
                 throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {fuelType}. Current type is {Type}.");
             }
-
-            if (amount < 0)
+            if (amount <= 0)
             {
-                throw new ArgumentException("Tank cannot be refueled with a negative amount of fuel.");
+                throw new ArgumentException($"Wrong amount of fuel: {amount}.");
             }
-
             if (CurrentLevel + amount > Capacity)
             {
                 throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {amount} units. Capacity exceeded.");

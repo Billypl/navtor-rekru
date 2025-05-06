@@ -23,7 +23,10 @@ namespace NavtorShiper.Entities
             var passengers = Passengers.Values;
             foreach (var passenger in passengers)
             {
-                strBuilder.Append('\t').Append(passenger.ToString()).Append('\n');
+                strBuilder
+                    .Append('\t')
+                    .Append(passenger.ToString())
+                    .Append('\n');
             }
             return strBuilder.ToString();
         }

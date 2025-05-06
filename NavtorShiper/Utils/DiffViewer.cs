@@ -10,7 +10,7 @@ using System.IO.Pipelines;
 
 namespace NavtorShiper.Utils
 {
-    public class DiffViewr
+    public class DiffViewer
     {
         public static void ShowDiff(string oldText, string newText)
         {

@@ -9,10 +9,10 @@ namespace NavtorShiper.Entities
 {
     public abstract class Ship
     {
-        public string ImoNumber { get; protected set; }
-        public string Name { get; set; }
-        public double Length { get; protected set; }
-        public double Width { get; protected set; }
+        public string ImoNumber { get; }
+        public string Name { get; }
+        public double Length { get; }
+        public double Width { get; }
 
         protected Ship(string imoNumber, string name, double length, double width)
         {

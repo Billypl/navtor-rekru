@@ -71,13 +71,13 @@ namespace NavtorShiper.Tests
             
             Action act = () => tank.Refuel(DefaultFuelType, negativeAmount);
 
-            act.Should().Throw<ArgumentException>().WithMessage("Tank cannot be refueled with a negative amount of fuel.");
+            act.Should().Throw<ArgumentException>().WithMessage($"Wrong amount of fuel: {negativeAmount}.");
         }
 
         [Fact]
         public void Empty_SetsCurrentLevelToZeroAndResetsType()
         {
-            var tank = new Tank(DefaultTankId, DefaultFuelType, DefaultCapacity, InitialFuelAmount);
+            var tank = new Tank(DefaultTankId, DefaultCapacity, DefaultFuelType, InitialFuelAmount);
             tank.Empty();
 
             tank.CurrentLevel.Should().Be(0);
