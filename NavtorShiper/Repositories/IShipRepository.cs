@@ -12,6 +12,6 @@ namespace NavtorShiper.Repositories
         IEnumerable<Ship> GetAll();
         Ship? GetById(string imo);
         void Add(Ship ship);
-        bool Delete(string id);
+        bool Delete(Ship ship);
     }
 }

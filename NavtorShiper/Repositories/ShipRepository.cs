@@ -10,31 +10,14 @@ namespace NavtorShiper.Repositories
 {
     public class ShipRepository : IShipRepository
     {
-        private readonly Dictionary<string, Ship> _ships = new();
+        private readonly List<Ship> _ships = new();
 
-        public IEnumerable<Ship> GetAll()
-        {
-            return _ships.Values;
-        }
+        public IEnumerable<Ship> GetAll() => _ships;
 
-        public Ship? GetById(string imo)
-        {
-            var ship = _ships.GetValueOrDefault(imo);
-            return ship;
-        }
+        public Ship? GetById(string imo) => _ships.FirstOrDefault(s => s.ImoNumber == imo);
 
-        public void Add(Ship ship)
-        {
-            if (_ships.ContainsKey(ship.ImoNumber))
-            {
-                throw new ArgumentException($"Ship with IMO {ship.ImoNumber} already exists.");
-            }
-            _ships.Add(ship.ImoNumber, ship);
-        }
+        public void Add(Ship ship) => _ships.Add(ship);
 
-        public bool Delete(string id)
-        {
-            return _ships.Remove(id);
-        }
+        public bool Delete(Ship ship) => _ships.Remove(ship);
     }
 }

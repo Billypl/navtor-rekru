@@ -10,8 +10,9 @@ IShipRepository shipRepository = new ShipRepository();
 Seeder seeder = new Seeder(shipRepository);
 seeder.FillShipRepository();
 
-var tankerShipService = new TankerShipService(shipRepository);
-var passengerShipService = new PassengerShipService(shipRepository);
+var shipService = new ShipService(shipRepository);
+var tankerShipService = new TankerShipService(shipService);
+var passengerShipService = new PassengerShipService(shipService);
 
 PrintTankerOperations();
 Console.WriteLine("------ --------- ------\n");
@@ -26,11 +27,11 @@ void PrintTankerOperations()
     Console.WriteLine("------ TANKER 2 ------");
     tankerShipService.RefuelTank(Seeder.ValidImo1, 1, FuelType.HeavyFuel, 200);
     tankerShipService.RefuelTank(Seeder.ValidImo2, 2, FuelType.Diesel, 300);
-    string out2 = ShowDiffComparedToCurrent<TankerShip>(shipRepository, out1);
+    string out2 = ShowDiffComparedToCurrent<TankerShip>(shipService, out1);
 
     Console.WriteLine("------ TANKER 3 ------");
     tankerShipService.EmptyTank(Seeder.ValidImo2, 2);
-    string out3 = ShowDiffComparedToCurrent<TankerShip>(shipRepository, out2);
+    string out3 = ShowDiffComparedToCurrent<TankerShip>(shipService, out2);
 }
 
 void PrintPassengerOperations()
@@ -41,16 +42,16 @@ void PrintPassengerOperations()
 
     Console.WriteLine("------ PASSENGER 2 ------");
     passengerShipService.AddPassenger(Seeder.ValidImo3, new Passenger(3, "Megan", "Fox"));
-    string out2 = ShowDiffComparedToCurrent<PassengerShip>(shipRepository, out1);
+    string out2 = ShowDiffComparedToCurrent<PassengerShip>(shipService, out1);
 
     Console.WriteLine("------ PASSENGER 3 ------");
     passengerShipService.RemovePassenger(Seeder.ValidImo3, 1);
-    string out3 = ShowDiffComparedToCurrent<PassengerShip>(shipRepository, out2);
+    string out3 = ShowDiffComparedToCurrent<PassengerShip>(shipService, out2);
 }
 
-string ShowDiffComparedToCurrent<T>(IShipRepository shipRepository1, string lastState)
+string ShowDiffComparedToCurrent<T>(ShipService shipService, string lastState)
 {
-    var newState = string.Join('\n', shipRepository1.GetAll().OfType<T>().ToList());
+    var newState = string.Join('\n', shipService.GetAll().OfType<T>().ToList());
     DiffViewer.ShowDiff(lastState, newState);
     return newState;
 }

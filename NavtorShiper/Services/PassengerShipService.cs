@@ -8,13 +8,20 @@ using NavtorShiper.Repositories;
 
 namespace NavtorShiper.Services
 {
-    class PassengerShipService
+    public interface IPassengerShipService
     {
-        private readonly IShipRepository _shipRepository;
+        public void AddPassenger(string imo, Passenger passenger);
+        public void RemovePassenger(string imo, int passengerId);
 
-        public PassengerShipService(IShipRepository shipRepository)
+    }
+
+    public class PassengerShipService : IPassengerShipService
+    {
+        private readonly ShipService _shipService;
+
+        public PassengerShipService(ShipService shipService)
         {
-            _shipRepository = shipRepository;
+            _shipService = shipService;
         }
 
         public void AddPassenger(string imo, Passenger passenger)
@@ -35,7 +42,7 @@ namespace NavtorShiper.Services
 
         private PassengerShip GetPassengerShip(string imo)
         {
-            var ship = _shipRepository.GetById(imo);
+            var ship = _shipService.GetById(imo);
             if (ship is null)
             {
                 throw new ArgumentException($"Ship with IMO {imo} not found.");
