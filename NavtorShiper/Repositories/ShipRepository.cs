@@ -8,6 +8,14 @@ using NavtorShiper.Entities;
 
 namespace NavtorShiper.Repositories
 {
+    public interface IShipRepository
+    {
+        IEnumerable<Ship> GetAll();
+        Ship? GetById(string imo);
+        void Add(Ship ship);
+        bool Delete(Ship ship);
+    }
+
     public class ShipRepository : IShipRepository
     {
         private readonly List<Ship> _ships = new();

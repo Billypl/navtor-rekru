@@ -19,7 +19,7 @@ namespace NavtorShiper.Validators
 
         private static bool IsValidFormat(string imoNumber)
         {
-            return !(imoNumber.Length != ImoNumberLength || imoNumber.Any(c => !char.IsDigit(c)));
+            return imoNumber.Length == ImoNumberLength && imoNumber.All(char.IsDigit);
         }
 
         private static bool IsValidControlSum(string imoNumber)
@@ -30,8 +30,7 @@ namespace NavtorShiper.Validators
             int controlSum = 0;
             for (int i = 0; i < ImoNumberLength - 1; i++)
             {
-                int digit = digits[i];
-                controlSum += digit * (ImoNumberLength - i);
+                controlSum += digits[i] * (ImoNumberLength - i);
             }
             return controlSum % 10 == controlDigit;
         }

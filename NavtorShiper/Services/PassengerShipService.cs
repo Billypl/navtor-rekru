@@ -17,16 +17,21 @@ namespace NavtorShiper.Services
 
     public class PassengerShipService : IPassengerShipService
     {
-        private readonly ShipService _shipService;
+        private readonly IShipService _shipService;
 
-        public PassengerShipService(ShipService shipService)
+        public PassengerShipService(IShipService shipService)
         {
             _shipService = shipService;
         }
 
         public void AddPassenger(string imo, Passenger passenger)
         {
-            GetPassengerShip(imo).Passengers.Add(passenger);
+            var ship = GetPassengerShip(imo);
+            if (ship.Passengers.Any(p => p.Id == passenger.Id))
+            {
+                throw new ArgumentException($"Passenger with id {passenger.Id} already exists.");
+            }
+            ship.Passengers.Add(passenger);
         }
 
         public void RemovePassenger(string imo, int passengerId)
@@ -39,23 +44,17 @@ namespace NavtorShiper.Services
         private PassengerShip GetPassengerShip(string imo)
         {
             var ship = _shipService.GetById(imo);
-            if (ship is null)
-            {
-                throw new ArgumentException($"Ship with IMO {imo} not found.");
-            }
             ShipValidator.ValidateShipType<PassengerShip>(ship);
-
             return ship as PassengerShip;
         }
 
-        private static Passenger GetPassenger(int passengerId, PassengerShip ship)
+        private Passenger GetPassenger(int passengerId, PassengerShip ship)
         {
             var passenger = ship.Passengers.FirstOrDefault(p => p.Id == passengerId);
             if (passenger is null)
             {
-                throw new InvalidOperationException($"Passenger with id {passengerId} not found.");
+                throw new ArgumentException($"Passenger with id {passengerId} not found.");
             }
-
             return passenger;
         }
     }

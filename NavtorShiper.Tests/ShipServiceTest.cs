@@ -22,8 +22,8 @@ namespace NavtorShiper.Tests.Services
         {
             _shipRepositoryMock = new Mock<IShipRepository>();
             _shipService = new ShipService(_shipRepositoryMock.Object);
-            testShip1 = new TankerShip(ValidImo1, "Test Ship 1", 100, 20);
-            testShip2 = new PassengerShip(ValidImo2, "Test Ship 2", 100, 20);
+            testShip1 = new TankerShip(ValidImo1, "Tanker ship", 100, 20);
+            testShip2 = new PassengerShip(ValidImo2, "Passenger ship", 100, 20);
         }
 
         [Fact]
