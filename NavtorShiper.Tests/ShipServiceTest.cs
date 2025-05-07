@@ -5,15 +5,14 @@ using NavtorShiper.Repositories;
 using NavtorShiper.Services;
 using System;
 using System.Collections.Generic;
+using NavtorShiper.Validators;
 using Xunit;
+using static NavtorShiper.Tests.TestConstants;
 
 namespace NavtorShiper.Tests.Services
 {
     public class ShipServiceTests
     {
-        private const string ValidImo1 = "1234567";
-        private const string ValidImo2 = "8814275";
-        private const string InvalidImo = "7654321";
         private readonly Mock<IShipRepository> _shipRepositoryMock;
         private readonly ShipService _shipService;
         private readonly Ship testShip1;
@@ -23,8 +22,8 @@ namespace NavtorShiper.Tests.Services
         {
             _shipRepositoryMock = new Mock<IShipRepository>();
             _shipService = new ShipService(_shipRepositoryMock.Object);
-            testShip1 = new TankerShip(ValidImo1, "Test Ship", 100, 20);
-            testShip2 = new PassengerShip(ValidImo2, "Test Ship", 100, 20);
+            testShip1 = new TankerShip(ValidImo1, "Test Ship 1", 100, 20);
+            testShip2 = new PassengerShip(ValidImo2, "Test Ship 2", 100, 20);
         }
 
         [Fact]
@@ -65,7 +64,7 @@ namespace NavtorShiper.Tests.Services
         [Fact]
         public void Add_WithNewShip_AddsToRepository()
         {
-            _shipRepositoryMock.Setup(x => x.GetById(ValidImo1)).Returns((Ship)null);
+            _shipRepositoryMock.Setup(x => x.GetById(ValidImo1)).Returns(null as Ship);
 
             _shipService.Add(testShip1);
 

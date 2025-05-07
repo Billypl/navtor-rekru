@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NavtorShiper.Utils
+namespace NavtorShiper.Validators
 {
     public class ImoValidator
     {
         private const int ImoNumberLength = 7;
-        public static bool IsValidImoNumber(string imoNumber)
+        public static void ValidateImoNumber(string imoNumber)
         {
-            return IsValidFormat(imoNumber) && IsValidControlSum(imoNumber);
+            if (!IsValidFormat(imoNumber) || !IsValidControlSum(imoNumber))
+            {
+                throw new ArgumentException($"Invalid IMO number: {imoNumber}");
+            }
         }
 
         private static bool IsValidFormat(string imoNumber)

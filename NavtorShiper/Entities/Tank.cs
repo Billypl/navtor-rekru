@@ -14,14 +14,7 @@ namespace NavtorShiper.Entities
         None
     }
 
-    public interface ITank
-    {
-        int Id { get; }
-        void Refuel(FuelType fuelType, double amount);
-        void Empty();
-    }
-
-    public class Tank : ITank
+    public class Tank
     {
         public int Id { get; }
         public FuelType Type { get; private set; }
@@ -38,7 +31,6 @@ namespace NavtorShiper.Entities
 
         public void Refuel(FuelType fuelType, double amount)
         {
-            ValidateRefuelingParameters(fuelType, amount);
             Type = fuelType;
             CurrentLevel += amount;
         }
@@ -47,22 +39,6 @@ namespace NavtorShiper.Entities
         {
             Type = FuelType.None;
             CurrentLevel = 0;
-        }
-
-        private void ValidateRefuelingParameters(FuelType fuelType, double amount)
-        {
-            if (fuelType != Type && CurrentLevel != 0)
-            {
-                throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {fuelType}. Current type is {Type}.");
-            }
-            if (amount <= 0)
-            {
-                throw new ArgumentException($"Wrong amount of fuel: {amount}.");
-            }
-            if (CurrentLevel + amount > Capacity)
-            {
-                throw new InvalidOperationException($"Tank with ID {Id} cannot be refueled with {amount} units. Capacity exceeded.");
-            }
         }
 
         public override string ToString()

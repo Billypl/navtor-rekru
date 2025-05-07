@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NavtorShiper.Repositories;
+using NavtorShiper.Validators;
 
 namespace NavtorShiper.Services
 {
@@ -46,6 +47,8 @@ namespace NavtorShiper.Services
             {
                 throw new ArgumentException($"Ship with IMO {ship.ImoNumber} already exists.");
             }
+            ImoValidator.ValidateImoNumber(ship.ImoNumber);
+            ShipValidator.ValidateShipParameters(ship);
             _shipRepository.Add(ship);
         }
 

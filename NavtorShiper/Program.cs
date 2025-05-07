@@ -3,6 +3,7 @@ using NavtorShiper.Entities;
 using NavtorShiper.Repositories;
 using NavtorShiper.Services;
 using NavtorShiper.Utils;
+using NavtorShiper.Validators;
 
 // this is program demo - for full functionality showcase, please refer to the tests project
 

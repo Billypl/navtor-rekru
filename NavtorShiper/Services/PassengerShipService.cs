@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NavtorShiper.Repositories;
+using NavtorShiper.Validators;
 
 namespace NavtorShiper.Services
 {
@@ -12,7 +13,6 @@ namespace NavtorShiper.Services
     {
         public void AddPassenger(string imo, Passenger passenger);
         public void RemovePassenger(string imo, int passengerId);
-
     }
 
     public class PassengerShipService : IPassengerShipService
@@ -32,11 +32,7 @@ namespace NavtorShiper.Services
         public void RemovePassenger(string imo, int passengerId)
         {
             var ship = GetPassengerShip(imo);
-            var passenger = ship.Passengers.FirstOrDefault(p => p.Id == passengerId);
-            if (passenger is null)
-            {
-                throw new InvalidOperationException($"Passenger with id {passengerId} not found.");
-            }
+            var passenger = GetPassenger(passengerId, ship);
             ship.Passengers.Remove(passenger);
         }
 
@@ -47,11 +43,20 @@ namespace NavtorShiper.Services
             {
                 throw new ArgumentException($"Ship with IMO {imo} not found.");
             }
-            if (ship is not PassengerShip passengerShip)
+            ShipValidator.ValidateShipType<PassengerShip>(ship);
+
+            return ship as PassengerShip;
+        }
+
+        private static Passenger GetPassenger(int passengerId, PassengerShip ship)
+        {
+            var passenger = ship.Passengers.FirstOrDefault(p => p.Id == passengerId);
+            if (passenger is null)
             {
-                throw new InvalidOperationException($"Ship with IMO {imo} is not a passenger ship.");
+                throw new InvalidOperationException($"Passenger with id {passengerId} not found.");
             }
-            return passengerShip;
+
+            return passenger;
         }
     }
 }

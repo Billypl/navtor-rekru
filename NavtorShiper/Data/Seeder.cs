@@ -16,12 +16,12 @@ namespace NavtorShiper.Data
         public const string ValidImo3 = "1234567";
         public void FillShipRepository()
         {
-            var ship1 = new TankerShip(ValidImo1, "Tanker Ship 1", 1000, 200, new List<ITank>
+            var ship1 = new TankerShip(ValidImo1, "Tanker Ship 1", 1000, 200, new List<Tank>
             {
                 { new Tank(1, 1000) },
                 { new Tank(2, 500) }
             });
-            var ship2 = new TankerShip(ValidImo2, "Tanker Ship 2", 2000, 400, new List<ITank>
+            var ship2 = new TankerShip(ValidImo2, "Tanker Ship 2", 2000, 400, new List<Tank>
             {
                 { new Tank(1, 700) },
                 { new Tank(2, 400) }

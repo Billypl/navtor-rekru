@@ -1,86 +1,125 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using NavtorShiper.Entities;
-using NavtorShiper.Repositories;
 using NavtorShiper.Services;
-using Xunit;
+using static NavtorShiper.Tests.TestConstants;
 
-namespace NavtorShiper.Tests
+namespace NavtorShiper.Tests.Services
 {
     public class TankerShipServiceTests
     {
-        private const string ValidImo = "9074729";
-        private const string InvalidImo = "9074728";
-        private const int ExistingTankId = 1;
-        private const int NonExistingTankId = 999;
-        private const double TankCapacity = 1000;
-        private const double RefuelAmount = 500;
-
         private readonly Mock<IShipService> _shipServiceMock;
-        private readonly Mock<ITank> _tankMock;
         private readonly TankerShipService _service;
 
         public TankerShipServiceTests()
         {
             _shipServiceMock = new Mock<IShipService>();
-            _tankMock = new Mock<ITank>();
             _service = new TankerShipService(_shipServiceMock.Object);
-        }
-
-
-        [Fact]
-        public void RefuelTank_WhenShipNotFound_ThrowsException()
-        {
-            _shipServiceMock.Setup(x => x.GetById(InvalidImo)).Returns(null as Ship);
-
-            Action action = () => _service.RefuelTank(InvalidImo, ExistingTankId, FuelType.Diesel, RefuelAmount);
-
-            action.Should()
-                .Throw<ArgumentException>()
-                .WithMessage($"Ship with IMO {InvalidImo} not found.");
         }
 
         [Fact]
         public void RefuelTank_WhenTankNotFound_ThrowsException()
         {
             var tankerShip = CreateTestTankerShip();
-            _shipServiceMock.Setup(x => x.GetById(ValidImo)).Returns(tankerShip);
+            _shipServiceMock.Setup(x => x.GetById(ValidImo1)).Returns(tankerShip);
 
-            Action action = () => _service.RefuelTank(ValidImo, NonExistingTankId, FuelType.Diesel, RefuelAmount);
+            Action action = () => _service.RefuelTank(ValidImo1, NonExistingTankId, FuelType.Diesel, HalfCapacityRefuelAmount);
 
             action.Should()
                 .Throw<ArgumentException>()
-                .WithMessage($"Tank with ID {NonExistingTankId} not found in ship with IMO {ValidImo}.");
+                .WithMessage($"Tank with ID {NonExistingTankId} not found in ship with IMO {ValidImo1}.");
         }
 
         [Fact]
-        public void RefuelTank_WithValidParameters_CallsTankRefuel()
+        public void RefuelTank_FirstTime_SetsTypeAndIncreasesLevel()
         {
-            _tankMock.Setup(t => t.Id).Returns(ExistingTankId);
-            var tankerShip = CreateTestTankerShip(_tankMock.Object);
-            _shipServiceMock.Setup(x => x.GetById(ValidImo)).Returns(tankerShip);
+            var tank = CreateTestTank();
+            var tankerShip = CreateTestTankerShip(tank);
+            _shipServiceMock.Setup(x => x.GetById(ValidImo1)).Returns(tankerShip);
 
-            _service.RefuelTank(ValidImo, ExistingTankId, FuelType.HeavyFuel, RefuelAmount);
+            _service.RefuelTank(ValidImo1, ExistingTankId, DefaultFuelType, HalfCapacityRefuelAmount);
 
-            _tankMock.Verify(t => t.Refuel(FuelType.HeavyFuel, RefuelAmount), Times.Once);
+            tank.Type.Should().Be(DefaultFuelType);
+            tank.CurrentLevel.Should().Be(HalfCapacityRefuelAmount);
         }
 
         [Fact]
-        public void EmptyTank_WithValidTank_CallsTankEmpty()
+        public void RefuelTank_WithSameType_AddsFuel()
         {
-            _tankMock.Setup(t => t.Id).Returns(ExistingTankId);
-            var tankerShip = CreateTestTankerShip(_tankMock.Object);
-            _shipServiceMock.Setup(x => x.GetById(ValidImo)).Returns(tankerShip);
+            var tank = CreateTestTank();
+            var tankerShip = CreateTestTankerShip(tank);
+            _shipServiceMock.Setup(x => x.GetById(ValidImo1)).Returns(tankerShip);
 
-            _service.EmptyTank(ValidImo, ExistingTankId);
+            _service.RefuelTank(ValidImo1, ExistingTankId, DefaultFuelType, HalfCapacityRefuelAmount);
+            _service.RefuelTank(ValidImo1, ExistingTankId, DefaultFuelType, HalfCapacityRefuelAmount);
 
-            _tankMock.Verify(t => t.Empty(), Times.Once);
+            tank.CurrentLevel.Should().Be(HalfCapacityRefuelAmount + HalfCapacityRefuelAmount);
         }
 
-        private TankerShip CreateTestTankerShip(ITank? tank = null)
+        [Fact]
+        public void RefuelTank_WithDifferentFuelType_ThrowsException()
         {
-            var tankerShip = new TankerShip(ValidImo, "Oil Tanker", 150, 30);
+            var tank = CreateTestTank();
+            var tankerShip = CreateTestTankerShip(tank);
+            _shipServiceMock.Setup(x => x.GetById(ValidImo1)).Returns(tankerShip);
+
+            _service.RefuelTank(ValidImo1, ExistingTankId, DefaultFuelType, HalfCapacityRefuelAmount);
+            Action action = () => _service.RefuelTank(ValidImo1, ExistingTankId, OtherFuelType, HalfCapacityRefuelAmount);
+            action.Should()
+                .Throw<InvalidOperationException>()
+                .WithMessage($"Tank with ID {tank.Id} cannot be refueled with {OtherFuelType}. Current type is {tank.Type}.");
+        }
+
+        [Fact]
+        public void RefuelTank_AboveMaxCapacity_ThrowsException()
+        {
+            var tank = CreateTestTank();
+            var tankerShip = CreateTestTankerShip(tank);
+            _shipServiceMock.Setup(x => x.GetById(ValidImo1)).Returns(tankerShip);
+
+            _service.RefuelTank(ValidImo1, ExistingTankId, DefaultFuelType, HalfCapacityRefuelAmount);
+            Action action = () => _service.RefuelTank(ValidImo1, ExistingTankId, DefaultFuelType, MoreThanHalfCapacityRefuelAmount);
+            action.Should()
+                .Throw<InvalidOperationException>()
+                .WithMessage($"Tank with ID {tank.Id} cannot be refueled with {MoreThanHalfCapacityRefuelAmount} units. Capacity exceeded.");
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(NegativeRefuelAmount)]
+        public void RefuelTank_WithBadAmount_ThrowsException(double amount)
+        {
+            var tank = CreateTestTank();
+            var tankerShip = CreateTestTankerShip(tank);
+            _shipServiceMock.Setup(x => x.GetById(ValidImo1)).Returns(tankerShip);
+
+            Action action = () => _service.RefuelTank(ValidImo1, ExistingTankId, DefaultFuelType, amount);
+            action.Should()
+                .Throw<ArgumentException>()
+                .WithMessage($"Wrong amount of fuel: {amount}.");
+        }
+
+        [Fact]
+        public void EmptyTank_ResetsTypeAndDecreasesLevel()
+        {
+            var tank = CreateTestTank();
+            var tankerShip = CreateTestTankerShip(tank);
+            _shipServiceMock.Setup(x => x.GetById(ValidImo1)).Returns(tankerShip);
+
+            _service.EmptyTank(ValidImo1, ExistingTankId);
+
+            tank.Type.Should().Be(FuelType.None);
+            tank.CurrentLevel.Should().Be(0);
+        }
+
+        private Tank CreateTestTank()
+        {
+            return new Tank(ExistingTankId, DefaultCapacity);
+        }
+
+        private TankerShip CreateTestTankerShip(Tank? tank = null)
+        {
+            var tankerShip = new TankerShip(ValidImo1, "Oil Tanker", 150, 30);
             if (tank != null)
             {
                 tankerShip.Tanks.Add(tank);
