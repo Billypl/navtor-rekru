@@ -10,7 +10,8 @@ namespace NavtorShiper.Entities
     {
         public List<Tank> Tanks { get; set; }
 
-        public TankerShip(string imoNumber, string name, double length, double width, List<Tank>? tanks = null) : base(imoNumber, name, length, width)
+        public TankerShip(string imoNumber, string name, double length, double width, List<Tank>? tanks = null) 
+            : base(imoNumber, ShipType.Tanker, name, length, width)
         {
             Tanks = tanks ?? new();
         }

@@ -1,0 +1,25 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@baseUrl = https://localhost:7001/api/ship/8814275
+@tankerShipId = 8814275
+
+### Get ship
+GET {{baseUrl}} HTTP/1.1
+Accept: application/json
+
+### Refuel Tank via URL parameters
+PUT {{baseUrl}}/tank/1/refuel?amount=500&fuelType=HeavyFuel
+Content-Type: application/json
+Accept: application/json
+
+### Get ship
+GET {{baseUrl}} HTTP/1.1
+Accept: application/json
+
+### Empty tank
+PUT {{baseUrl}}/tank/1/empty
+Content-Type: application/json
+Accept: application/json
+
+### Get ship
+GET {{baseUrl}} HTTP/1.1
+Accept: application/json

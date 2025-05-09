@@ -1,0 +1,25 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+### Base URL
+@baseUrl = https://localhost:7001/api/ship
+
+### Get All Passengers 
+GET {{baseUrl}}/1234567
+
+### Add Passenger to Ship
+POST {{baseUrl}}/1234567/passenger
+Content-Type: application/json
+
+{
+  "id": 3,
+  "firstname": "Jan",
+  "lastname": "Kowalski"
+}
+
+### Get All Passengers 
+GET {{baseUrl}}/1234567
+
+### Delete Passenger from Ship
+DELETE {{baseUrl}}/1234567/passenger/3
+
+### Get All Passengers 
+GET {{baseUrl}}/1234567

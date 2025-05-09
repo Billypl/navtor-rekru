@@ -11,7 +11,7 @@ namespace NavtorShiper.Entities
         public List<Passenger> Passengers { get; }
 
         public PassengerShip(string imoNumber, string name, double length, double width, List<Passenger>? passengers = null)
-            : base(imoNumber, name, length, width)
+            : base(imoNumber, ShipType.Passenger, name, length, width)
         {
             Passengers = passengers ?? new();
         }

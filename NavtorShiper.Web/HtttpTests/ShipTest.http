@@ -1,0 +1,43 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@baseUrl = https://localhost:7001/api/ship
+
+### Get all ships
+GET {{baseUrl}} HTTP/1.1
+Accept: application/json
+
+### Get ship by IMO
+GET {{baseUrl}}/1234567 HTTP/1.1
+Accept: application/json
+
+### Add new ship
+POST {{baseUrl}} HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+{
+  "imonumber": "9074729",
+  "type": "tanker",
+  "name": "Example Ship",
+  "length": 200,
+  "width": 30,
+  "tanks": 
+  [
+      {
+        "id": 1,
+        "type": 2,
+        "capacity": 1000,
+        "currentLevel": 0
+      }
+  ]
+}
+
+### Get all ships
+GET {{baseUrl}} HTTP/1.1
+Accept: application/json
+
+### Delete ship by IMO
+DELETE {{baseUrl}}/9074729 HTTP/1.1
+Accept: application/json
+
+### Get all ships
+GET {{baseUrl}} HTTP/1.1
+Accept: application/json
