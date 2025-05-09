@@ -22,7 +22,6 @@ namespace NavtorShiper.Data
         public const string ValidImo1 = "8814275";
         public const string ValidImo2 = "9074729";
         public const string ValidImo3 = "1234567";
-        private const string jsonFilePath = "Data\\data.json";
         public void FillShipRepository()
         {
             var ship1 = new TankerShip(ValidImo1,  "Tanker Ship 1", 1000, 200, new List<Tank>
@@ -44,25 +43,5 @@ namespace NavtorShiper.Data
             //_shipRepository.Add(ship2);
             _shipRepository.Add(ship3);
         }
-        //public void FillShipRepository(string filePath)
-        //{
-        //    string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\.."));
-        //    string path = Path.Combine(projectRoot, jsonFilePath);
-        //    //string path = Path.Combine(AppContext.BaseDirectory, jsonFilePath);
-        //    string jsonString = File.ReadAllText("");
-        //    List <Ship> shipCollection = JsonSerializer.Deserialize<List<Ship>>(jsonString)!;
-
-        //    foreach (var shipData in shipCollection)
-        //    {
-        //        if (shipData.Type == ShipType.Tanker)
-        //        {
-        //            _shipRepository.Add(shipData as TankerShip);
-        //        }
-        //        else if (shipData.Type == ShipType.Tanker)
-        //        {
-        //            _shipRepository.Add(shipData as PassengerShip);
-        //        }
-        //    }
-        //}
     }
 }

@@ -1,9 +1,8 @@
 using NavtorShiper.Repositories;
 using NavtorShiper.Services;
 using NavtorShiper.Data;
-using System.Text.Json.Serialization.Metadata;
 using NavtorShiper.Entities;
-using Microsoft.Extensions.DependencyInjection;
+using NavtorShiper.Web.Middlewares;
 
 
 Console.WriteLine(ShipType.Tanker.ToString());
@@ -11,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-
+builder.Services.AddScoped<ErrorHandlerMiddleware>();
 
 builder.Services.AddSingleton<IShipRepository, ShipRepository>();
 builder.Services.AddScoped<Seeder>();
@@ -24,6 +23,7 @@ var app = builder.Build();
 var seeder = app.Services.CreateScope().ServiceProvider.GetRequiredService<Seeder>();
 seeder.FillShipRepository();
 
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
