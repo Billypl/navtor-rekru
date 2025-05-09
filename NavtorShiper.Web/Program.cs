@@ -10,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ErrorHandlerMiddleware>();
 
 builder.Services.AddSingleton<IShipRepository, ShipRepository>();
@@ -23,6 +26,12 @@ var app = builder.Build();
 var seeder = app.Services.CreateScope().ServiceProvider.GetRequiredService<Seeder>();
 seeder.FillShipRepository();
 
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Ship API v1");
+    c.RoutePrefix = "docs";
+});
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
